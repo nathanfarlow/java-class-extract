@@ -12,6 +12,9 @@
 #include <linux/limits.h>
 #include <errno.h>
 
+// See https://docs.oracle.com/javase/specs/jvms/se16/jvms16.pdf
+// for Java class file format
+
 // If the class is any larger than this, it's probably corrupted.
 // Increase if you plan on extracting class files larger than 10MB
 #define MAX_CLASS_SIZE 10 * 1024 * 1024
@@ -104,7 +107,7 @@ ssize_t read_class(const u1 *data, const u1 *end) {
         read_u1(tag, &data, end);
         if (read_cp_info(&data, end, tag) < 0) return -1;
 
-        // Long and Int constants occupy 2 constant pool entries
+        // Long and Double constants occupy 2 constant pool entries
         i += tag == 5 || tag == 6;
     }
 
